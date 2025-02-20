@@ -53,18 +53,10 @@
                     </TextBox.Text>
                 </TextBox>
             </Grid>
-            <StackPanel>
-                <DataGrid>
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Width="2*" Header="1"/>
-                        <DataGridTextColumn Width="2*" Header="2"/>
-                        <DataGridTextColumn Width="2*" Header="3"/>
-                        <DataGridTextColumn Width="2*" Header="4"/>
-                        <DataGridTextColumn Width="2*" Header="5"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-                <Button HorizontalAlignment="Center" Grid.Row="3" Content="Начать расчет"/>
-
+            <StackPanel Orientation="Horizontal">
+                <DataGrid AutoGenerateColumns="True" ItemsSource="{Binding dataTable}" CellEditEnding="DataGrid_CellEditEnding" />
+                <DataGrid AutoGenerateColumns="True" ItemsSource="{Binding dataTable}" CellEditEnding="DataGrid_CellEditEnding"  />
+                <!--<Button HorizontalAlignment="Center" Grid.Row="3" Content="Начать расчет"/>-->
             </StackPanel>
         </StackPanel>
     </Grid>
