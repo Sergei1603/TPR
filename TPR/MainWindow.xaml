@@ -3,9 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TPR"
+        xmlns:local="clr-namespace:TPR" xmlns:vm="clr-namespace:TPR" d:DataContext="{d:DesignInstance Type=local:MarkModelViewModel}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+
+    <Window.DataContext>
+        <vm:MarkModelViewModel></vm:MarkModelViewModel>
+    </Window.DataContext>
     <Grid>
         <StackPanel>
             <Grid Height="100" VerticalAlignment="Top">
@@ -19,11 +23,35 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Grid.Column="0">Количество стратегий:</Label>
-                <TextBox Grid.Row="0" Grid.Column="1" Padding="1"></TextBox>
-                <Label Grid.Row="1" Grid.Column="0">Количество состаяний:</Label>
-                <TextBox Grid.Row="1" Grid.Column="1" Padding="1"></TextBox>
+                <TextBox Grid.Row="0" Grid.Column="1" Padding="1">
+                    <TextBox.Text>
+                        <Binding Path="StrategyCount" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+                            <Binding.ValidationRules>
+                                <local:NumberValidator />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <Label Grid.Row="1" Grid.Column="0">Количество состояний:</Label>
+                <TextBox Grid.Row="1" Grid.Column="1" Padding="1">
+                    <TextBox.Text>
+                        <Binding Path="StateCount" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+                            <Binding.ValidationRules>
+                                <local:NumberValidator />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
                 <Label Grid.Row="2" Grid.Column="0">Количество шагов моделирования:</Label>
-                <TextBox Grid.Row="2" Grid.Column="1" Padding="1" ></TextBox>
+                <TextBox Grid.Row="2" Grid.Column="1" Padding="1" >
+                    <TextBox.Text>
+                        <Binding Path="Steps" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+                            <Binding.ValidationRules>
+                                <local:NumberValidator />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </Grid>
             <StackPanel>
                 <DataGrid>
