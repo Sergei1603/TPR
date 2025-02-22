@@ -125,6 +125,8 @@ namespace TPR
             this.model = new MarkModel();
             strategies = new List<Strategy>();
             UpdateMatrix(4);
+ //           LoadService.Save(strategies[0].Probabilites);
+           strategies[0].Profit = LoadService.Load();
         }
     }
 }
