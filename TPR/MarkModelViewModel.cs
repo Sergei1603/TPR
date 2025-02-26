@@ -1,16 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace TPR
 {
     class MarkModelViewModel : INotifyPropertyChanged
     {
         public MarkModel model;
+
+
+        private List<Strategy> strategies;
         public int StrategyCount
         { 
             get => model.StrategyCount;
@@ -18,6 +24,30 @@ namespace TPR
             {
                 model.StrategyCount = value;
                 OnPropertyChanged(nameof(MarkModel.StrategyCount));
+                UpdateMatrix(value);
+            }
+        }
+
+        public void UpdateMatrix(int strategyCount)
+        {
+            var tmp1 =new List<List<double>>();
+            for (int i = 0; i < strategyCount; i++)
+            {
+                tmp1.Add(new List<double>(strategyCount));
+                for (int j = 0; j < strategyCount; j++)
+                {
+                    tmp1[i].Add(0);
+                }
+       //         var tmp = new List<double>(strategyCount);
+            }
+
+
+            for (int i = 0; i < strategyCount; i++)
+            {
+                var strat = new Strategy();
+                strat.Probabilites = new List<List<double>>(tmp1);
+                strat.Profit = new List<List<double>>(tmp1);
+                strategies.Add(strat);
             }
         }
         public int StateCount
@@ -39,6 +69,47 @@ namespace TPR
             }
         }
 
+        public int curentStrategy { get; set; } = 0;
+
+        public DataTable dataTable
+        {
+            get
+            {
+                return ConvertMatrixToDataTable(strategies[curentStrategy].Profit);
+            }
+            set
+            {
+                dataTable = value;
+            }
+        }
+
+        private DataTable ConvertMatrixToDataTable(List<List<double>> matrix)
+        {
+            DataTable dataTable = new DataTable();
+
+            // Определяем количество строк и столбцов в матрице
+            int rows = matrix.Count();
+            int cols = matrix.Count();
+
+            // Создаем столбцы в DataTable
+            for (int i = 0; i < cols; i++)
+            {
+                dataTable.Columns.Add($"Column {i + 1}", typeof(int));
+            }
+
+            // Заполняем DataTable данными из матрицы
+            for (int i = 0; i < rows; i++)
+            {
+                DataRow row = dataTable.NewRow();
+                for (int j = 0; j < cols; j++)
+                {
+                    row[j] = matrix[i][j];
+                }
+                dataTable.Rows.Add(row);
+            }
+
+            return dataTable;
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -51,7 +122,11 @@ namespace TPR
 
         public MarkModelViewModel()
         {
-            this.model = new MarkModel(1, 1, 1);
+            this.model = new MarkModel();
+            strategies = new List<Strategy>();
+            UpdateMatrix(4);
+ //           LoadService.Save(strategies[0].Probabilites);
+           strategies[0].Profit = LoadService.Load();
         }
     }
 }
