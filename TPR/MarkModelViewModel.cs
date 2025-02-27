@@ -1,12 +1,14 @@
 ﻿using GalaSoft.MvvmLight.CommandWpf;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace TPR
 {
@@ -14,6 +16,9 @@ namespace TPR
     {
         private List<Strategy> strategies;
         public MarkModel model;
+
+
+        private List<Strategy> strategies;
         public int StrategyCount
         { 
             get => model.StrategyCount;
@@ -66,6 +71,7 @@ namespace TPR
             }
         }
 
+        public int curentStrategy { get; set; } = 0;
 
         private DataTable _dataTable;
         public DataTable MyDataTable
