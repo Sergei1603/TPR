@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.CommandWpf;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -13,10 +14,10 @@ namespace TPR
 {
     class MarkModelViewModel : INotifyPropertyChanged
     {
+        private List<Strategy> strategies;
         public MarkModel model;
 
 
-        private List<Strategy> strategies;
         public int StrategyCount
         { 
             get => model.StrategyCount;
@@ -71,15 +72,18 @@ namespace TPR
 
         public int curentStrategy { get; set; } = 0;
 
-        public DataTable dataTable
+        private DataTable _dataTable;
+        public DataTable MyDataTable
         {
             get
             {
-                return ConvertMatrixToDataTable(strategies[curentStrategy].Profit);
+                return _dataTable;
+ //               return ConvertMatrixToDataTable(strategies[curentStrategy].Profit);
             }
             set
             {
-                dataTable = value;
+                _dataTable = value;
+ //               ConvertMatrixToDataTable(strategies[curentStrategy].Profit = _dataTable.;
             }
         }
 
@@ -125,8 +129,25 @@ namespace TPR
             this.model = new MarkModel();
             strategies = new List<Strategy>();
             UpdateMatrix(4);
- //           LoadService.Save(strategies[0].Probabilites);
-           strategies[0].Profit = LoadService.Load();
+            MyDataTable = ConvertMatrixToDataTable(strategies[curentStrategy].Profit);
+            //           LoadService.Save(strategies[0].Probabilites);
+            //          strategies[0].Profit = LoadService.Load();
+        }
+
+        private RelayCommand<object> _updateCommand;
+        public RelayCommand<object> UpdateCommand
+        {
+            get
+            {
+                return _updateCommand ??
+                  (_updateCommand = new RelayCommand<object>(Ubdatecom));
+            }
+        }
+
+        public void Ubdatecom(object obj)
+        {
+            var table = obj as DataTable;
+            MyDataTable = table;
         }
     }
 }
