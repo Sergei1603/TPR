@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace TPR
@@ -71,6 +73,7 @@ namespace TPR
 
         public int curentStrategy { get; set; } = 0;
 
+        public ObservableCollection<DataRow> Data { get; set; }
         public DataTable dataTable
         {
             get
@@ -111,6 +114,11 @@ namespace TPR
             return dataTable;
         }
 
+        private void Data_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         // Create the OnPropertyChanged method to raise the event
@@ -120,13 +128,19 @@ namespace TPR
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
+        private void cellChangedHandler(object args)
+        {
+
+        }
+        public DelegateCommand<object> GridCellChanged { get; set; }
         public MarkModelViewModel()
         {
+            GridCellChanged = new DelegateCommand<object>(cellChangedHandler);
             this.model = new MarkModel();
             strategies = new List<Strategy>();
             UpdateMatrix(4);
  //           LoadService.Save(strategies[0].Probabilites);
-           strategies[0].Profit = LoadService.Load();
+           //strategies[0].Profit = LoadService.Load();
         }
     }
 }

@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TPR" xmlns:vm="clr-namespace:TPR" d:DataContext="{d:DesignInstance Type=local:MarkModelViewModel}"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:prism="http://prismlibrary.com/"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
 
@@ -54,8 +55,14 @@
                 </TextBox>
             </Grid>
             <StackPanel Orientation="Horizontal">
-                <DataGrid AutoGenerateColumns="True" ItemsSource="{Binding dataTable}" CellEditEnding="DataGrid_CellEditEnding" />
-                <DataGrid AutoGenerateColumns="True" ItemsSource="{Binding dataTable}" CellEditEnding="DataGrid_CellEditEnding"  />
+                <DataGrid AutoGenerateColumns="True" ItemsSource="{Binding dataTable}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="RowEditEnding">
+                            <prism:InvokeCommandAction Command="{Binding GridCellChanged}" CommandParameter="{Binding dataTable}"/>
+                    </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </DataGrid>
+                <DataGrid ItemsSource="{Binding Data}"/>
                 <!--<Button HorizontalAlignment="Center" Grid.Row="3" Content="Начать расчет"/>-->
             </StackPanel>
         </StackPanel>

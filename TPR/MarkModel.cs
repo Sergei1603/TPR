@@ -11,6 +11,14 @@ namespace TPR
         public int StrategyCount { get; set; }
         public int StateCount { get; set; }
         public int Steps { get; set; }
+
+
+        public MarkModel()
+        {
+            StateCount = 1;
+            StrategyCount = 1;
+            Steps = 1;
+        }
         //public List<Strategy> Strategies { get; set; }
         //public MarkModel(int strategyCount, int stateCount, int Steps)
         //{
