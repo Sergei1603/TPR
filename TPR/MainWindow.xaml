@@ -21,6 +21,7 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Grid.Column="0">Количество стратегий:</Label>
                 <TextBox Grid.Row="0" Grid.Column="1" Padding="1">
@@ -52,19 +53,12 @@
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
+                <Button Grid.Row="3" Grid.Column="1" Command="{Binding UpdateCommand}" CommandParameter="{Binding MyDataTable}"> Обновить</Button>
             </Grid>
-            <StackPanel>
-                <DataGrid>
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Width="2*" Header="1"/>
-                        <DataGridTextColumn Width="2*" Header="2"/>
-                        <DataGridTextColumn Width="2*" Header="3"/>
-                        <DataGridTextColumn Width="2*" Header="4"/>
-                        <DataGridTextColumn Width="2*" Header="5"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-                <Button HorizontalAlignment="Center" Grid.Row="3" Content="Начать расчет"/>
-
+            <StackPanel Orientation="Horizontal">
+                <DataGrid AutoGenerateColumns="True" ItemsSource="{Binding MyDataTable}" CellEditEnding="DataGrid_CellEditEnding" />
+                <DataGrid AutoGenerateColumns="True" ItemsSource="{Binding MyDataTable}" CellEditEnding="DataGrid_CellEditEnding"  />
+                <!--<Button HorizontalAlignment="Center" Grid.Row="3" Content="Начать расчет"/>-->
             </StackPanel>
         </StackPanel>
     </Grid>
