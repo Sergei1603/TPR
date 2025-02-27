@@ -18,7 +18,6 @@ namespace TPR
         public MarkModel model;
 
 
-        private List<Strategy> strategies;
         public int StrategyCount
         { 
             get => model.StrategyCount;
@@ -115,7 +114,7 @@ namespace TPR
 
             return dataTable;
         }
-        public int curentStrategy { get; set; } = 0;
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         // Create the OnPropertyChanged method to raise the event
