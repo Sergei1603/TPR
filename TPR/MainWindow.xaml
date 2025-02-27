@@ -56,8 +56,8 @@
                 <Button Grid.Row="3" Grid.Column="1" Command="{Binding UpdateCommand}" CommandParameter="{Binding MyDataTable}"> Обновить</Button>
             </Grid>
             <StackPanel Orientation="Horizontal">
-                <DataGrid AutoGenerateColumns="True" ItemsSource="{Binding MyDataTable}" CellEditEnding="DataGrid_CellEditEnding" />
-                <DataGrid AutoGenerateColumns="True" ItemsSource="{Binding MyDataTable}" CellEditEnding="DataGrid_CellEditEnding"  />
+                <DataGrid AutoGenerateColumns="True" ItemsSource="{Binding MyDataTable}"  />
+                <DataGrid AutoGenerateColumns="True" ItemsSource="{Binding MyDataTable}"   />
                 <!--<Button HorizontalAlignment="Center" Grid.Row="3" Content="Начать расчет"/>-->
             </StackPanel>
         </StackPanel>

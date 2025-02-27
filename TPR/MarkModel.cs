@@ -12,6 +12,7 @@ namespace TPR
         public int StateCount { get; set; }
         public int Steps { get; set; }
         public List<Strategy> Strategies { get; set; }
+        public MarkModel() { }
         public MarkModel(int strategyCount, int stateCount, int Steps)
         {
             this.StateCount = stateCount;

@@ -12,6 +12,7 @@ namespace TPR
 {
     class MarkModelViewModel : INotifyPropertyChanged
     {
+        private List<Strategy> strategies;
         public MarkModel model;
         public int StrategyCount
         { 
@@ -108,7 +109,7 @@ namespace TPR
 
             return dataTable;
         }
-
+        public int curentStrategy { get; set; } = 0;
         public event PropertyChangedEventHandler? PropertyChanged;
 
         // Create the OnPropertyChanged method to raise the event
