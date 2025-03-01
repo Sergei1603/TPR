@@ -7,7 +7,10 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:prism="http://prismlibrary.com/"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-
+    <Window.Resources>
+        <local:VisibilityConverter x:Key="VisibilityConverter"/>
+        <local:MatrixToDataTableConverter x:Key="MatrixToDataTableConverter"/>
+    </Window.Resources>
     <Window.DataContext>
         <vm:MarkModelViewModel></vm:MarkModelViewModel>
     </Window.DataContext>
@@ -19,6 +22,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -53,17 +57,39 @@
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
+                <Label Grid.Row="3" Grid.Column="0">Текущая стратегия:</Label>
+                <ComboBox Grid.Row="3" Grid.Column="1" Padding="1" ItemsSource="{Binding ListOfStrategies, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                          SelectedItem="{Binding CurrentStrategy, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+
+                </ComboBox>
             </Grid>
-            <StackPanel Orientation="Horizontal">
-                <DataGrid AutoGenerateColumns="True" ItemsSource="{Binding dataTable}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="RowEditEnding">
-                            <prism:InvokeCommandAction Command="{Binding GridCellChanged}" CommandParameter="{Binding dataTable}"/>
-                    </i:EventTrigger>
-                    </i:Interaction.Triggers>
+            <StackPanel Orientation="Horizontal" Height="175">
+                <DataGrid AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False"
+                          ItemsSource="{Binding Path=CurrentDataTablePair.Item1}">
                 </DataGrid>
-                <DataGrid ItemsSource="{Binding Data}"/>
-                <!--<Button HorizontalAlignment="Center" Grid.Row="3" Content="Начать расчет"/>-->
+                <DataGrid AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" 
+                          ItemsSource="{Binding Path=CurrentDataTablePair.Item2}">
+                </DataGrid>
+            </StackPanel>
+            <Button HorizontalAlignment="Center" Content="Начать расчет" Width="100" Height="25">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <prism:InvokeCommandAction Command="{Binding CountCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+            <Button HorizontalAlignment="Center" Content="Загрузить" Width="100" Height="25">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <prism:InvokeCommandAction Command="{Binding LoadExcel}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+            <StackPanel Orientation="Horizontal" Height="150">
+                <DataGrid AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" CanUserReorderColumns="False"
+                          Visibility="{Binding IsResultVisible, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource VisibilityConverter}}"
+              ItemsSource="{Binding Path=ResultTable}">
+                </DataGrid>
             </StackPanel>
         </StackPanel>
     </Grid>

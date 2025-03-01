@@ -20,23 +20,5 @@ namespace TPR
         {
             InitializeComponent();
         }
-
-        private void DataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
-        {
-            // Проверяем, что редактирование завершено
-            if (e.EditAction == DataGridEditAction.Commit)
-            {
-                // Получаем измененную ячейку
-                var editedCell = e.Column.GetCellContent(e.Row);
-
-                // Получаем новое значение
-                if (editedCell is TextBox textBox)
-                {
-                    string newValue = textBox.Text;
-
-                    MessageBox.Show($"Изменено значение: {newValue}");
-                }
-            }
-        }
     }
 }
