@@ -5,15 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TPR" xmlns:vm="clr-namespace:TPR" d:DataContext="{d:DesignInstance Type=local:MarkModelViewModel}"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:prism="http://prismlibrary.com/"
+        xmlns:graphsharp="clr-namespace:GraphSharp.Controls;assembly=GraphSharp.Controls" xmlns:graphviewergdi="clr-namespace:Microsoft.Msagl.GraphViewerGdi;assembly=Microsoft.Msagl.GraphViewerGdi"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="600" Width="1000">
     <Window.Resources>
         <local:VisibilityConverter x:Key="VisibilityConverter"/>
         <local:MatrixToDataTableConverter x:Key="MatrixToDataTableConverter"/>
     </Window.Resources>
-    <Window.DataContext>
-        <vm:MarkModelViewModel></vm:MarkModelViewModel>
-    </Window.DataContext>
     <Grid>
         <StackPanel>
             <Grid Height="100" VerticalAlignment="Top">
@@ -63,33 +61,43 @@
 
                 </ComboBox>
             </Grid>
-            <StackPanel Orientation="Horizontal" Height="175">
-                <DataGrid AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False"
+            <StackPanel Orientation="Horizontal" Height="275">
+                <StackPanel>
+                    <Label>Матрица переходных вероятностей</Label>
+                    <DataGrid AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False"
                           ItemsSource="{Binding Path=CurrentDataTablePair.Item1}">
-                </DataGrid>
-                <DataGrid AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" 
+                    </DataGrid>
+                </StackPanel>
+                <StackPanel>
+                    <Label>Матрица доходностей</Label>
+                    <DataGrid AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" 
                           ItemsSource="{Binding Path=CurrentDataTablePair.Item2}">
-                </DataGrid>
+                    </DataGrid>
+                </StackPanel>
+
+                <WindowsFormsHost Name="windowsFormsHost" Width="300" Height="275">
+                </WindowsFormsHost>
+
             </StackPanel>
-            <Button HorizontalAlignment="Center" Content="Начать расчет" Width="100" Height="25">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <prism:InvokeCommandAction Command="{Binding CountCommand}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-            <Button HorizontalAlignment="Center" Content="Загрузить" Width="100" Height="25">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <prism:InvokeCommandAction Command="{Binding LoadExcel}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-            <StackPanel Orientation="Horizontal" Height="150">
+            <StackPanel Orientation="Vertical">
                 <DataGrid AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" CanUserReorderColumns="False"
-                          Visibility="{Binding IsResultVisible, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource VisibilityConverter}}"
-              ItemsSource="{Binding Path=ResultTable}">
+              ItemsSource="{Binding Path=ResultTable}" Height="130"
+                          Visibility="{Binding IsResultVisible, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource VisibilityConverter}}">
                 </DataGrid>
+                <Button HorizontalAlignment="Center" VerticalAlignment="Bottom" Content="Начать расчет" Width="100" Height="25">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <prism:InvokeCommandAction Command="{Binding CountCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+                <Button HorizontalAlignment="Center" VerticalAlignment="Bottom" Content="Загрузить" Width="100" Height="25">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <prism:InvokeCommandAction Command="{Binding LoadExcel}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
             </StackPanel>
         </StackPanel>
     </Grid>
