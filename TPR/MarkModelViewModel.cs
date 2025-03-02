@@ -2,6 +2,7 @@
 using DocumentFormat.OpenXml.Spreadsheet;
 using GraphSharp;
 using Microsoft.Msagl.Drawing;
+using Microsoft.Win32;
 using Prism.Commands;
 using QuickGraph;
 using System;
@@ -58,7 +59,7 @@ namespace TPR
                 }
                 return graph;
             }
-        } 
+        }
 
 
 
@@ -130,7 +131,7 @@ namespace TPR
         /// количество стратегий
         /// </summary>
         public int StrategyCount
-        { 
+        {
             get => model.StrategyCount;
             set
             {
@@ -159,10 +160,12 @@ namespace TPR
             OnPropertyChanged(nameof(CurrentStrategy));
             OnPropertyChanged(nameof(MarkModel.Steps));
             OnPropertyChanged(nameof(CurrentDataTablePair));
- //           OnPropertyChanged(nameof(Graph));
+            //           OnPropertyChanged(nameof(Graph));
         }
 
-        public bool IsResultVisible { get => isResultVisible;
+        public bool IsResultVisible
+        {
+            get => isResultVisible;
             set
             {
                 isResultVisible = value;
@@ -175,8 +178,8 @@ namespace TPR
 
         private DelegateCommand countCommand;
 
-        public ICommand CountCommand => countCommand ??= new DelegateCommand(CountProfit);  
-        
+        public ICommand CountCommand => countCommand ??= new DelegateCommand(CountProfit);
+
         private DelegateCommand loadCommand;
 
         public ICommand LoadExcel => loadCommand ??= new DelegateCommand(LoadExcelHandler);
@@ -184,7 +187,7 @@ namespace TPR
         private void LoadExcelHandler()
         {
             string FilePath = "";
-            OpenFileDialog openFileDialog = new OpenFileDialog();
+            System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog();
             if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 FilePath = openFileDialog.FileName;
@@ -372,6 +375,26 @@ namespace TPR
             this.OnPropertyChanged(nameof(ResultTable));
             OnPropertyChanged(nameof(Graph));
             GraphUpdated?.Invoke(this, EventArgs.Empty);
+        }
+
+        private DelegateCommand saveCommand;
+
+        public ICommand SaveExcel => saveCommand ??= new DelegateCommand(SaveExcelHandler);
+        private void SaveExcelHandler()
+        {
+            string FilePath = "";
+            System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            saveFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+            if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                FilePath = saveFileDialog.FileName;
+            }
+            else
+            {
+                return;
+            }
+            var service = new LoadService(FilePath);
+            service.Save(model.Strategies);
         }
     }
 }
