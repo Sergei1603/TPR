@@ -11,9 +11,10 @@ namespace TPR
 {
     internal class LoadService
     {
+        private XLWorkbook workbook;
         private static string pathToFile = "SaveData.xlsx";
 
-        public static void Save(List<List<double>> data)
+        public void Save(List<List<double>> data)
         {
             var appDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var relativePath = @"SaveData.xlsx";
@@ -31,13 +32,11 @@ namespace TPR
             
         }
 
-        public static List<List<double>> Load()
+        public List<List<double>> Load(int rowIndex = 0, int columnIndex = 0)
         {
-
-            var workbook = new XLWorkbook(pathToFile);
             var worksheet = workbook.Worksheet("Data");
             var originMatrix = new List<List<double>>();
-            var row = 0;
+            var row = rowIndex;
             while (true)
             {
                 IXLCell tmp = worksheet.Cell(row + 1, 1);
@@ -46,7 +45,7 @@ namespace TPR
                     break;
                 }
                 originMatrix.Add(new List<double>());
-                var column = 0;
+                var column = columnIndex;
                 while (true)
                 {
                     IXLCell cell = worksheet.Cell(row + 1, column + 1);
@@ -54,14 +53,18 @@ namespace TPR
                     {
                         break;
                     }
-                    originMatrix[row].Add(cell.GetDouble());
+                    originMatrix[row - rowIndex].Add(cell.GetDouble());
                     column++;
                 }
                 row++;
-
             }
+
             return originMatrix;
-            
+        }
+
+        public LoadService()
+        {
+            workbook = new XLWorkbook(pathToFile);
         }
     }
 }
