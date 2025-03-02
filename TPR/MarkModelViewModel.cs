@@ -1,6 +1,9 @@
 ﻿using DocumentFormat.OpenXml.EMMA;
 using DocumentFormat.OpenXml.Spreadsheet;
+using GraphSharp;
+using Microsoft.Msagl.Drawing;
 using Prism.Commands;
+using QuickGraph;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -23,10 +27,39 @@ namespace TPR
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public MarkModel model;
-
+        /// <summary>
+        /// Первый вероятность, второй доходность
+        /// </summary>
         private List<Tuple<DataTable, DataTable>> DataTablePairs;
 
         Tuple<DataTable, DataTable> currentDataTablePair;
+
+        public event EventHandler GraphUpdated;
+
+        public Graph Graph
+        {
+            get
+            {
+                var graph = new Graph("Weighted Graph");
+                for (int i = 0; i < model.Strategies[CurrentStrategy - 1].Probabilites.Count; i++)
+                {
+                    graph.AddNode((i + 1).ToString());
+                }
+                for (int i = 0; i < model.Strategies[CurrentStrategy - 1].Probabilites.Count; i++)
+                {
+                    for (int j = 0; j < model.Strategies[CurrentStrategy - 1].Probabilites.Count; j++)
+                    {
+                        if (model.Strategies[CurrentStrategy - 1].Probabilites[i][j] != 0)
+                        {
+                            var edge = graph.AddEdge((i + 1).ToString(), (j + 1).ToString());
+                            edge.LabelText = model.Strategies[CurrentStrategy - 1].Probabilites[i][j].ToString();
+                        }
+                    }
+                }
+                return graph;
+            }
+        } 
+
 
 
         private int curentStrategy;
@@ -35,13 +68,14 @@ namespace TPR
         {
             get
             {
-                return this.curentStrategy;
+                return curentStrategy;
             }
             set
             {
-                this.curentStrategy = value;
-                this.CurrentDataTablePair = this.DataTablePairs[value - 1];
+                curentStrategy = value;
+                CurrentDataTablePair = DataTablePairs[value - 1];
                 this.OnPropertyChanged(nameof(CurrentStrategy));
+                GraphUpdated?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -125,6 +159,7 @@ namespace TPR
             OnPropertyChanged(nameof(CurrentStrategy));
             OnPropertyChanged(nameof(MarkModel.Steps));
             OnPropertyChanged(nameof(CurrentDataTablePair));
+ //           OnPropertyChanged(nameof(Graph));
         }
 
         public bool IsResultVisible { get => isResultVisible;
@@ -148,7 +183,17 @@ namespace TPR
 
         private void LoadExcelHandler()
         {
-            var service = new LoadService();
+            string FilePath = "";
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                FilePath = openFileDialog.FileName;
+            }
+            else
+            {
+                return;
+            }
+            var service = new LoadService(FilePath);
             // список матриц вероятностей
             List<List<List<double>>> ProbabilityMatrices = [service.Load()];
             var stateCount = ProbabilityMatrices[0].Count;
@@ -325,6 +370,8 @@ namespace TPR
                 }
             }
             this.OnPropertyChanged(nameof(ResultTable));
+            OnPropertyChanged(nameof(Graph));
+            GraphUpdated?.Invoke(this, EventArgs.Empty);
         }
     }
 }

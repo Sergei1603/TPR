@@ -12,7 +12,7 @@ namespace TPR
     internal class LoadService
     {
         private XLWorkbook workbook;
-        private static string pathToFile = "SaveData.xlsx";
+        private string pathToFile = "SaveData.xlsx";
 
         public void Save(List<List<double>> data)
         {
@@ -34,7 +34,7 @@ namespace TPR
 
         public List<List<double>> Load(int rowIndex = 0, int columnIndex = 0)
         {
-            var worksheet = workbook.Worksheet("Data");
+            var worksheet = workbook.Worksheet(1);
             var originMatrix = new List<List<double>>();
             var row = rowIndex;
             while (true)
@@ -62,8 +62,9 @@ namespace TPR
             return originMatrix;
         }
 
-        public LoadService()
+        public LoadService(string pathToFile)
         {
+            this.pathToFile = pathToFile;
             workbook = new XLWorkbook(pathToFile);
         }
     }

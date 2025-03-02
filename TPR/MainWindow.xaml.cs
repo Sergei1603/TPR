@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Microsoft.Msagl.GraphViewerGdi;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,6 +20,22 @@ namespace TPR
         public MainWindow()
         {
             InitializeComponent();
+
+           var viewModel = new MarkModelViewModel();
+            var graphViewer = new GViewer();
+            graphViewer.Graph = viewModel.Graph;
+            DataContext = viewModel;
+            // Встраиваем GraphViewer в WindowsFormsHost
+            windowsFormsHost.Child = graphViewer;
+
+            viewModel.GraphUpdated += (sender, args) =>
+            {
+                var graphViewer = new GViewer();
+                graphViewer.Graph = viewModel.Graph;
+
+                // Встраиваем GraphViewer в WindowsFormsHost
+                windowsFormsHost.Child = graphViewer;
+            };
         }
     }
 }
