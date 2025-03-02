@@ -44,16 +44,56 @@ namespace TPR
             this.Strategies.Clear();
         }
 
-        internal List<List<double>> Count()
+        internal List<List<List<double>>> Count()
         {
-            List<List<double>> result = new();
-            for (int i = 0; i < Strategies.Count; i++)
+            // максимальные доходности для каждого состояния
+            List<double> maxProfitsByState = new List<double>();
+            for (int i = 0; i < StateCount; i++)
             {
-                var expectedProfit = Strategies[i].CountExpectedProfit();
-                result.Add(expectedProfit);
+                maxProfitsByState.Add(0);
             }
+            List<List<List<double>>> resultWithSteps = new List<List<List<double>>>();
+            List<List<double>> profitAfterFirstStep = null;
+            for (int j = 0; j < Steps; j++)
+            {
+                List<List<double>> result = new();
+                for (int i = 0; i < Strategies.Count; i++)
+                {
+                    List<double> expectedProfit;
+                    // если считаем первый этап, то не передаем максимальный доход, т.к.
+                    // для его расчета нужно использовать Profit
+                    if (j == 0)
+                    {
+                        expectedProfit = Strategies[i].CountExpectedProfit();
 
-            return result;
+                    }
+                    else
+                    {
+                        expectedProfit = Strategies[i].CountExpectedProfit(maxProfitsByState, profitAfterFirstStep[i]);
+                    }
+                    result.Add(expectedProfit);
+                }
+                
+                if (j == 0)
+                {
+                    // сохраняем ожидаемые доходности
+                    profitAfterFirstStep = result;
+                }
+                // находим макс. элемент. Такой расчет, т.к. в матрице result содержатся списки для стратегий,
+                //  а нам нужен максимум в состоянии
+                for (int q = 0; q < result.Count; q++)
+                {
+                    for (int w = 0; w < result[q].Count; w++)
+                    {
+                        if (maxProfitsByState[w] < result[q][w])
+                        {
+                            maxProfitsByState[w] = result[q][w];
+                        }
+                    }
+                }
+                resultWithSteps.Add(result);
+            }
+            return resultWithSteps;
         }
 
         public MarkModel()

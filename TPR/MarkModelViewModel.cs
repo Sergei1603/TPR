@@ -134,7 +134,7 @@ namespace TPR
                 this.OnPropertyChanged(nameof(IsResultVisible));
             }
         }
-        public DataTable ResultTable { get; }
+        public DataTable ResultTable { get; set; }
 
         private bool isResultVisible = false;
 
@@ -270,8 +270,61 @@ namespace TPR
                     model.Strategies[i].Profit[j] = [.. profitsRow];
                     model.Strategies[i].Probabilites[j] = [.. probsRow];
                 }
-                var result = this.model.Count();
             }
+            var result = this.model.Count();
+
+            ResultTable = new DataTable();
+            ResultTable.Columns.Add($"Состояния", typeof(string));
+            ResultTable.Columns.Add($"Стратегии", typeof(string));
+            ResultTable.Columns.Add($"Ожидаемые доходности", typeof(double));
+            for (int i = 0; i < result.Count; i++)
+            {
+                ResultTable.Columns.Add($"После {i + 1} этапа", typeof(double));
+            }
+
+            // список строк по состояниям
+            List<List<DataRow>> rowsByState = new();
+            for (int i = 0; i < result[0][0].Count; i++)
+            {
+                rowsByState.Add(new List<DataRow>());
+            }
+
+            // по шагам
+            for (int i = 0; i < result.Count; i++)
+            {
+                // по стратегиям
+                for (int j = 0; j < result[i].Count; j++)
+                {
+                    // по состояниям
+                    for (int k = 0; k < result[i][j].Count; k++)
+                    {
+                        // добавляем строки только на 1 этапе
+                        if (i == 0)
+                        {
+                            DataRow row = ResultTable.NewRow();
+                            row[0] = $"Состояние {k + 1}";
+                            row[1] = $"Стратегия {j + 1}";
+                            row[2] = Math.Round(result[i][j][k], 3);
+                            row[3] = Math.Round(result[i][j][k], 3);
+                            rowsByState[k].Add(row);
+                        }
+                        else
+                        {// на последующих этапах получаем соответствующие состоянию строки
+                            var row = rowsByState[k];
+                            row[j][i + 3] = Math.Round(result[i][j][k], 3);
+                        }
+                    }
+                }
+            }
+            ResultTable.Rows.Clear();
+            for (int i = 0; i < rowsByState.Count; i++)
+            {
+                for (int j = 0; j < rowsByState[i].Count; j++)
+                {
+                    ResultTable.Rows.Add(rowsByState[i][j]);
+                }
+            }
+            this.OnPropertyChanged(nameof(ResultTable));
         }
     }
 }
