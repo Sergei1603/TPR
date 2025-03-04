@@ -225,6 +225,8 @@ namespace TPR
             this.curentStrategy = this.ListOfStrategies.First();
             this.DataTablePairs = this.BuildDataTables(this.model.Strategies);
             CurrentDataTablePair = this.DataTablePairs.First();
+            GraphUpdated?.Invoke(this, EventArgs.Empty);
+            IsResultVisible = false;
             UpdateProperties();
         }
 
@@ -302,10 +304,8 @@ namespace TPR
             return dataTablePairs;
         }
 
-        private void CountProfit()
+        private void LoadFromViewToModel()
         {
-            IsResultVisible = true;
-
             for (int i = 0; i < this.DataTablePairs.Count; i++)
             {
                 var probsTable = this.DataTablePairs[i].Item1;
@@ -319,6 +319,13 @@ namespace TPR
                     model.Strategies[i].Probabilites[j] = [.. probsRow];
                 }
             }
+        }
+
+        private void CountProfit()
+        {
+            IsResultVisible = true;
+
+            LoadFromViewToModel();
             var result = this.model.Count();
 
             ResultTable = new DataTable();
@@ -382,6 +389,7 @@ namespace TPR
         public ICommand SaveExcel => saveCommand ??= new DelegateCommand(SaveExcelHandler);
         private void SaveExcelHandler()
         {
+            LoadFromViewToModel();
             string FilePath = "";
             System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             saveFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
