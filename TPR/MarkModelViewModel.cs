@@ -200,15 +200,22 @@ namespace TPR
             // список матриц вероятностей
             List<List<List<double>>> ProbabilityMatrices = [service.Load()];
             var stateCount = ProbabilityMatrices[0].Count;
-            for (int i = 0; i < stateCount; i++)
+
+            for (int i = 0; ; i++)
             {
-                ProbabilityMatrices.Add(service.Load((stateCount + 1) * (i + 1), 0));
+                var val = service.Load((stateCount + 1) * (i + 1), 0);
+                // т.к не знаем, сколько стратегий, идем, пока не вернем пустой лист
+                if (val.Count != stateCount)
+                {
+                    break;
+                }
+                ProbabilityMatrices.Add(val);
             }
 
             var strategyCount = ProbabilityMatrices.Count;
             // список матриц доходов
             List<List<List<double>>> ProfitMatrices = [service.Load(0, stateCount + 1)];
-            for (int i = 0; i < stateCount; i++)
+            for (int i = 0; i < strategyCount - 1; i++)
             {
                 ProfitMatrices.Add(service.Load((stateCount + 1) * (i + 1), stateCount + 1));
             }
