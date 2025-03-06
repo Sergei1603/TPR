@@ -173,6 +173,7 @@ namespace TPR
             }
         }
         public DataTable ResultTable { get; set; }
+        public DataTable ResultTableLast { get; set; }
 
         private bool isResultVisible = false;
 
@@ -338,10 +339,14 @@ namespace TPR
             ResultTable = new DataTable();
             ResultTable.Columns.Add($"Состояния", typeof(string));
             ResultTable.Columns.Add($"Стратегии", typeof(string));
-            ResultTable.Columns.Add($"Ожидаемые доходности", typeof(double));
+            ResultTable.Columns.Add($"Ожидаемый результат", typeof(double));
+
+            ResultTableLast = new DataTable();
+            ResultTableLast.Columns.Add($"n", typeof(string));
             for (int i = 0; i < result.Count; i++)
             {
                 ResultTable.Columns.Add($"После {i + 1} этапа", typeof(double));
+                ResultTableLast.Columns.Add($"{i + 1} этап", typeof(double));
             }
 
             // список строк по состояниям
@@ -351,6 +356,8 @@ namespace TPR
                 rowsByState.Add(new List<DataRow>());
             }
 
+            List<List<double>> maxResult = new List<List<double>>();
+            List<List<string>> maxResultstrat = new List<List<string>>();
             // по шагам
             for (int i = 0; i < result.Count; i++)
             {
@@ -379,6 +386,7 @@ namespace TPR
                 }
             }
             ResultTable.Rows.Clear();
+
             for (int i = 0; i < rowsByState.Count; i++)
             {
                 for (int j = 0; j < rowsByState[i].Count; j++)
@@ -386,7 +394,40 @@ namespace TPR
                     ResultTable.Rows.Add(rowsByState[i][j]);
                 }
             }
+            for (int j = 0; j < Steps; j++)
+            {
+                maxResult.Add(new List<double>());
+                maxResultstrat.Add(new List<string>());
+                for (int i = 0; i < rowsByState.Count; i++)
+                {
+                    var max = rowsByState[i].MaxBy(x => (double)x[j + 3]);
+                    maxResult[j].Add((double)max[j + 3]);
+                    maxResultstrat[j].Add((string)max[1]);
+
+                }
+            }
+            for (int i = 0; i < StateCount; i++)
+            {
+                DataRow row = ResultTableLast.NewRow();
+                row[0] = $"Максимальный результат на {i + 1} состоянии";
+                for (int j = 0; j < Steps; j++)
+                {
+                    row[j + 1] = maxResult[j][i];
+                }
+                ResultTableLast.Rows.Add(row);
+            }
+            for (int i = 0; i < StateCount; i++)
+            {
+                DataRow row = ResultTableLast.NewRow();
+                row[0] = $"Лучшая стратегия на {i + 1} состоянии";
+                for (int j = 0; j < Steps; j++)
+                {
+                    row[j + 1] = double.Parse(maxResultstrat[j][i].Split(' ').Last());
+                }
+                ResultTableLast.Rows.Add(row);
+            }
             this.OnPropertyChanged(nameof(ResultTable));
+            this.OnPropertyChanged(nameof(ResultTableLast));
             OnPropertyChanged(nameof(Graph));
             GraphUpdated?.Invoke(this, EventArgs.Empty);
         }

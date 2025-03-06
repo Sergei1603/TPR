@@ -81,7 +81,11 @@
             </StackPanel>
             <StackPanel Orientation="Vertical">
                 <DataGrid AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" CanUserReorderColumns="False"
-              ItemsSource="{Binding Path=ResultTable}" Height="130"
+              ItemsSource="{Binding Path=ResultTable}" Height="auto"
+                          Visibility="{Binding IsResultVisible, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource VisibilityConverter}}">
+                </DataGrid>
+                <DataGrid AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" CanUserReorderColumns="False"
+              ItemsSource="{Binding Path=ResultTableLast}" Height="auto"
                           Visibility="{Binding IsResultVisible, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource VisibilityConverter}}">
                 </DataGrid>
                 <Button HorizontalAlignment="Center" VerticalAlignment="Bottom" Content="Начать расчет" Width="100" Height="25">
