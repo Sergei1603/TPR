@@ -27,384 +27,345 @@ namespace ЛР5
         ///  Required method for Designer support - do not modify
         ///  the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
-        {
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.button2 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.dgwLeft = new System.Windows.Forms.DataGridView();
-            this.dgw2 = new System.Windows.Forms.DataGridView();
-            this.cbCriteria = new System.Windows.Forms.ComboBox();
-            this.cbType = new System.Windows.Forms.ComboBox();
-            this.cbFunction = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.lblQ = new System.Windows.Forms.Label();
-            this.lblS = new System.Windows.Forms.Label();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.открытьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.сохранитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.nudS = new System.Windows.Forms.NumericUpDown();
-            this.nudQ = new System.Windows.Forms.NumericUpDown();
-            this.nudWeight = new System.Windows.Forms.NumericUpDown();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgwLeft)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgw2)).BeginInit();
-            this.menuStrip1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudS)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudQ)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudWeight)).BeginInit();
-            this.SuspendLayout();
+        private void InitializeComponent() {
+            numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            button2 = new System.Windows.Forms.Button();
+            label1 = new System.Windows.Forms.Label();
+            label2 = new System.Windows.Forms.Label();
+            dgwLeft = new System.Windows.Forms.DataGridView();
+            dgw2 = new System.Windows.Forms.DataGridView();
+            cbCriteria = new System.Windows.Forms.ComboBox();
+            cbType = new System.Windows.Forms.ComboBox();
+            cbFunction = new System.Windows.Forms.ComboBox();
+            button1 = new System.Windows.Forms.Button();
+            button3 = new System.Windows.Forms.Button();
+            label3 = new System.Windows.Forms.Label();
+            label4 = new System.Windows.Forms.Label();
+            label5 = new System.Windows.Forms.Label();
+            label6 = new System.Windows.Forms.Label();
+            lblQ = new System.Windows.Forms.Label();
+            lblS = new System.Windows.Forms.Label();
+            saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            menuStrip1 = new System.Windows.Forms.MenuStrip();
+            открытьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            сохранитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            groupBox1 = new System.Windows.Forms.GroupBox();
+            nudS = new System.Windows.Forms.NumericUpDown();
+            nudQ = new System.Windows.Forms.NumericUpDown();
+            nudWeight = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgwLeft).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgw2).BeginInit();
+            menuStrip1.SuspendLayout();
+            groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nudS).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nudQ).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nudWeight).BeginInit();
+            SuspendLayout();
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(166, 57);
-            this.numericUpDown1.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(65, 27);
-            this.numericUpDown1.TabIndex = 2;
-            this.numericUpDown1.Value = new decimal(new int[] {
-            4,
-            0,
-            0,
-            0});
+            numericUpDown1.Location = new System.Drawing.Point(145, 43);
+            numericUpDown1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            numericUpDown1.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numericUpDown1.Name = "numericUpDown1";
+            numericUpDown1.Size = new System.Drawing.Size(57, 23);
+            numericUpDown1.TabIndex = 2;
+            numericUpDown1.Value = new decimal(new int[] { 4, 0, 0, 0 });
             // 
             // numericUpDown2
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(166, 93);
-            this.numericUpDown2.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(65, 27);
-            this.numericUpDown2.TabIndex = 3;
-            this.numericUpDown2.Value = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
+            numericUpDown2.Location = new System.Drawing.Point(145, 70);
+            numericUpDown2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            numericUpDown2.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numericUpDown2.Name = "numericUpDown2";
+            numericUpDown2.Size = new System.Drawing.Size(57, 23);
+            numericUpDown2.TabIndex = 3;
+            numericUpDown2.Value = new decimal(new int[] { 3, 0, 0, 0 });
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(558, 616);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(730, 49);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "Рассчитать";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            button2.Location = new System.Drawing.Point(474, 419);
+            button2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            button2.Name = "button2";
+            button2.Size = new System.Drawing.Size(479, 37);
+            button2.TabIndex = 5;
+            button2.Text = "Рассчитать";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(11, 59);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(149, 20);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Кол-во альтернатив";
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(10, 44);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(117, 15);
+            label1.TabIndex = 6;
+            label1.Text = "Кол-во альтернатив";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(11, 96);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(135, 20);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "Кол-во критериев";
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(10, 72);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(106, 15);
+            label2.TabIndex = 7;
+            label2.Text = "Кол-во критериев";
             // 
             // dgwLeft
             // 
-            this.dgwLeft.AllowUserToAddRows = false;
-            this.dgwLeft.AllowUserToDeleteRows = false;
-            this.dgwLeft.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
-            this.dgwLeft.BackgroundColor = System.Drawing.Color.White;
-            this.dgwLeft.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgwLeft.Location = new System.Drawing.Point(13, 153);
-            this.dgwLeft.Name = "dgwLeft";
-            this.dgwLeft.RowHeadersWidth = 51;
-            this.dgwLeft.RowTemplate.Height = 29;
-            this.dgwLeft.Size = new System.Drawing.Size(509, 512);
-            this.dgwLeft.TabIndex = 8;
+            dgwLeft.AllowUserToAddRows = false;
+            dgwLeft.AllowUserToDeleteRows = false;
+            dgwLeft.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
+            dgwLeft.BackgroundColor = System.Drawing.Color.White;
+            dgwLeft.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgwLeft.Location = new System.Drawing.Point(11, 115);
+            dgwLeft.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            dgwLeft.Name = "dgwLeft";
+            dgwLeft.RowHeadersWidth = 51;
+            dgwLeft.RowTemplate.Height = 29;
+            dgwLeft.Size = new System.Drawing.Size(445, 191);
+            dgwLeft.TabIndex = 8;
             // 
             // dgw2
             // 
-            this.dgw2.AllowUserToAddRows = false;
-            this.dgw2.AllowUserToDeleteRows = false;
-            this.dgw2.BackgroundColor = System.Drawing.Color.White;
-            this.dgw2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgw2.Location = new System.Drawing.Point(558, 216);
-            this.dgw2.Name = "dgw2";
-            this.dgw2.ReadOnly = true;
-            this.dgw2.RowHeadersWidth = 51;
-            this.dgw2.RowTemplate.Height = 29;
-            this.dgw2.Size = new System.Drawing.Size(731, 379);
-            this.dgw2.TabIndex = 9;
+            dgw2.AllowUserToAddRows = false;
+            dgw2.AllowUserToDeleteRows = false;
+            dgw2.BackgroundColor = System.Drawing.Color.White;
+            dgw2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgw2.Location = new System.Drawing.Point(474, 115);
+            dgw2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            dgw2.Name = "dgw2";
+            dgw2.ReadOnly = true;
+            dgw2.RowHeadersWidth = 51;
+            dgw2.RowTemplate.Height = 29;
+            dgw2.Size = new System.Drawing.Size(479, 284);
+            dgw2.TabIndex = 9;
             // 
             // cbCriteria
             // 
-            this.cbCriteria.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbCriteria.FormattingEnabled = true;
-            this.cbCriteria.Location = new System.Drawing.Point(7, 60);
-            this.cbCriteria.Name = "cbCriteria";
-            this.cbCriteria.Size = new System.Drawing.Size(155, 28);
-            this.cbCriteria.TabIndex = 10;
-            this.cbCriteria.SelectedIndexChanged += new System.EventHandler(this.cbCriteria_SelectedIndexChanged);
+            cbCriteria.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cbCriteria.FormattingEnabled = true;
+            cbCriteria.Location = new System.Drawing.Point(6, 45);
+            cbCriteria.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            cbCriteria.Name = "cbCriteria";
+            cbCriteria.Size = new System.Drawing.Size(136, 23);
+            cbCriteria.TabIndex = 10;
+            cbCriteria.SelectedIndexChanged += cbCriteria_SelectedIndexChanged;
             // 
             // cbType
             // 
-            this.cbType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbType.FormattingEnabled = true;
-            this.cbType.Location = new System.Drawing.Point(479, 59);
-            this.cbType.Name = "cbType";
-            this.cbType.Size = new System.Drawing.Size(223, 28);
-            this.cbType.TabIndex = 11;
+            cbType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cbType.FormattingEnabled = true;
+            cbType.Location = new System.Drawing.Point(227, 95);
+            cbType.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            cbType.Name = "cbType";
+            cbType.Size = new System.Drawing.Size(201, 23);
+            cbType.TabIndex = 11;
             // 
             // cbFunction
             // 
-            this.cbFunction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbFunction.FormattingEnabled = true;
-            this.cbFunction.Location = new System.Drawing.Point(289, 59);
-            this.cbFunction.Name = "cbFunction";
-            this.cbFunction.Size = new System.Drawing.Size(174, 28);
-            this.cbFunction.TabIndex = 12;
-            this.cbFunction.SelectedIndexChanged += new System.EventHandler(this.cbFunction_SelectedIndexChanged);
+            cbFunction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cbFunction.FormattingEnabled = true;
+            cbFunction.Location = new System.Drawing.Point(5, 95);
+            cbFunction.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            cbFunction.Name = "cbFunction";
+            cbFunction.Size = new System.Drawing.Size(216, 23);
+            cbFunction.TabIndex = 12;
+            cbFunction.SelectedIndexChanged += cbFunction_SelectedIndexChanged;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(366, 81);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(155, 48);
-            this.button1.TabIndex = 15;
-            this.button1.Text = "Создать таблицу";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.onCreateTable);
+            button1.Location = new System.Drawing.Point(229, 51);
+            button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            button1.Name = "button1";
+            button1.Size = new System.Drawing.Size(136, 36);
+            button1.TabIndex = 15;
+            button1.Text = "Создать таблицу";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += onCreateTable;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(578, 121);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(125, 41);
-            this.button3.TabIndex = 16;
-            this.button3.Text = "Задать";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            button3.Location = new System.Drawing.Point(319, 141);
+            button3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            button3.Name = "button3";
+            button3.Size = new System.Drawing.Size(109, 31);
+            button3.TabIndex = 16;
+            button3.Text = "Задать";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 37);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(77, 20);
-            this.label3.TabIndex = 17;
-            this.label3.Text = "Критерий";
+            label3.AutoSize = true;
+            label3.Location = new System.Drawing.Point(6, 28);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(60, 15);
+            label3.TabIndex = 17;
+            label3.Text = "Критерий";
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(173, 36);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(33, 20);
-            this.label4.TabIndex = 18;
-            this.label4.Text = "Вес";
+            label4.AutoSize = true;
+            label4.Location = new System.Drawing.Point(151, 27);
+            label4.Name = "label4";
+            label4.Size = new System.Drawing.Size(26, 15);
+            label4.TabIndex = 18;
+            label4.Text = "Вес";
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(289, 36);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(69, 20);
-            this.label5.TabIndex = 19;
-            this.label5.Text = "Функция";
+            label5.AutoSize = true;
+            label5.Location = new System.Drawing.Point(5, 78);
+            label5.Name = "label5";
+            label5.Size = new System.Drawing.Size(55, 15);
+            label5.TabIndex = 19;
+            label5.Text = "Функция";
             // 
             // label6
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(479, 36);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(35, 20);
-            this.label6.TabIndex = 20;
-            this.label6.Text = "Тип";
+            label6.AutoSize = true;
+            label6.Location = new System.Drawing.Point(227, 78);
+            label6.Name = "label6";
+            label6.Size = new System.Drawing.Size(27, 15);
+            label6.TabIndex = 20;
+            label6.Text = "Тип";
             // 
             // lblQ
             // 
-            this.lblQ.AutoSize = true;
-            this.lblQ.Location = new System.Drawing.Point(7, 105);
-            this.lblQ.Name = "lblQ";
-            this.lblQ.Size = new System.Drawing.Size(20, 20);
-            this.lblQ.TabIndex = 21;
-            this.lblQ.Text = "Q";
+            lblQ.AutoSize = true;
+            lblQ.Location = new System.Drawing.Point(6, 129);
+            lblQ.Name = "lblQ";
+            lblQ.Size = new System.Drawing.Size(16, 15);
+            lblQ.TabIndex = 21;
+            lblQ.Text = "Q";
             // 
             // lblS
             // 
-            this.lblS.AutoSize = true;
-            this.lblS.Location = new System.Drawing.Point(90, 105);
-            this.lblS.Name = "lblS";
-            this.lblS.Size = new System.Drawing.Size(17, 20);
-            this.lblS.TabIndex = 23;
-            this.lblS.Text = "S";
+            lblS.AutoSize = true;
+            lblS.Location = new System.Drawing.Point(79, 129);
+            lblS.Name = "lblS";
+            lblS.Size = new System.Drawing.Size(13, 15);
+            lblS.TabIndex = 23;
+            lblS.Text = "S";
             // 
             // openFileDialog1
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
+            openFileDialog1.FileName = "openFileDialog1";
             // 
             // menuStrip1
             // 
-            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.открытьToolStripMenuItem,
-            this.сохранитьToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 3, 0, 3);
-            this.menuStrip1.Size = new System.Drawing.Size(1302, 30);
-            this.menuStrip1.TabIndex = 24;
-            this.menuStrip1.Text = "menuStrip1";
+            menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { открытьToolStripMenuItem, сохранитьToolStripMenuItem });
+            menuStrip1.Location = new System.Drawing.Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new System.Drawing.Size(966, 24);
+            menuStrip1.TabIndex = 24;
+            menuStrip1.Text = "menuStrip1";
             // 
             // открытьToolStripMenuItem
             // 
-            this.открытьToolStripMenuItem.Name = "открытьToolStripMenuItem";
-            this.открытьToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
-            this.открытьToolStripMenuItem.Text = "Открыть";
-            this.открытьToolStripMenuItem.Click += new System.EventHandler(this.Load_Click);
+            открытьToolStripMenuItem.Name = "открытьToolStripMenuItem";
+            открытьToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
+            открытьToolStripMenuItem.Text = "Открыть";
+            открытьToolStripMenuItem.Click += Load_Click;
             // 
             // сохранитьToolStripMenuItem
             // 
-            this.сохранитьToolStripMenuItem.Name = "сохранитьToolStripMenuItem";
-            this.сохранитьToolStripMenuItem.Size = new System.Drawing.Size(97, 24);
-            this.сохранитьToolStripMenuItem.Text = "Сохранить";
-            this.сохранитьToolStripMenuItem.Click += new System.EventHandler(this.Save_Click);
+            сохранитьToolStripMenuItem.Name = "сохранитьToolStripMenuItem";
+            сохранитьToolStripMenuItem.Size = new System.Drawing.Size(78, 20);
+            сохранитьToolStripMenuItem.Text = "Сохранить";
+            сохранитьToolStripMenuItem.Click += Save_Click;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.nudS);
-            this.groupBox1.Controls.Add(this.button3);
-            this.groupBox1.Controls.Add(this.nudQ);
-            this.groupBox1.Controls.Add(this.lblS);
-            this.groupBox1.Controls.Add(this.nudWeight);
-            this.groupBox1.Controls.Add(this.cbType);
-            this.groupBox1.Controls.Add(this.lblQ);
-            this.groupBox1.Controls.Add(this.cbCriteria);
-            this.groupBox1.Controls.Add(this.cbFunction);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Location = new System.Drawing.Point(558, 36);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox1.Size = new System.Drawing.Size(730, 173);
-            this.groupBox1.TabIndex = 25;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Задание критерия";
+            groupBox1.Controls.Add(nudS);
+            groupBox1.Controls.Add(button3);
+            groupBox1.Controls.Add(nudQ);
+            groupBox1.Controls.Add(lblS);
+            groupBox1.Controls.Add(nudWeight);
+            groupBox1.Controls.Add(cbType);
+            groupBox1.Controls.Add(lblQ);
+            groupBox1.Controls.Add(cbCriteria);
+            groupBox1.Controls.Add(cbFunction);
+            groupBox1.Controls.Add(label3);
+            groupBox1.Controls.Add(label6);
+            groupBox1.Controls.Add(label4);
+            groupBox1.Controls.Add(label5);
+            groupBox1.Location = new System.Drawing.Point(12, 311);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new System.Drawing.Size(444, 187);
+            groupBox1.TabIndex = 25;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Задание критерия";
             // 
             // nudS
             // 
-            this.nudS.DecimalPlaces = 2;
-            this.nudS.Location = new System.Drawing.Point(90, 129);
-            this.nudS.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.nudS.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.nudS.Minimum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            -2147483648});
-            this.nudS.Name = "nudS";
-            this.nudS.Size = new System.Drawing.Size(77, 27);
-            this.nudS.TabIndex = 21;
+            nudS.DecimalPlaces = 2;
+            nudS.Location = new System.Drawing.Point(79, 147);
+            nudS.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
+            nudS.Minimum = new decimal(new int[] { 1000000, 0, 0, int.MinValue });
+            nudS.Name = "nudS";
+            nudS.Size = new System.Drawing.Size(67, 23);
+            nudS.TabIndex = 21;
             // 
             // nudQ
             // 
-            this.nudQ.DecimalPlaces = 2;
-            this.nudQ.Location = new System.Drawing.Point(7, 129);
-            this.nudQ.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.nudQ.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.nudQ.Minimum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            -2147483648});
-            this.nudQ.Name = "nudQ";
-            this.nudQ.Size = new System.Drawing.Size(77, 27);
-            this.nudQ.TabIndex = 21;
+            nudQ.DecimalPlaces = 2;
+            nudQ.Location = new System.Drawing.Point(6, 147);
+            nudQ.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
+            nudQ.Minimum = new decimal(new int[] { 1000000, 0, 0, int.MinValue });
+            nudQ.Name = "nudQ";
+            nudQ.Size = new System.Drawing.Size(67, 23);
+            nudQ.TabIndex = 21;
             // 
             // nudWeight
             // 
-            this.nudWeight.DecimalPlaces = 2;
-            this.nudWeight.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.nudWeight.Location = new System.Drawing.Point(173, 60);
-            this.nudWeight.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.nudWeight.Maximum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nudWeight.Name = "nudWeight";
-            this.nudWeight.Size = new System.Drawing.Size(110, 27);
-            this.nudWeight.TabIndex = 21;
+            nudWeight.DecimalPlaces = 2;
+            nudWeight.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
+            nudWeight.Location = new System.Drawing.Point(151, 45);
+            nudWeight.Maximum = new decimal(new int[] { 1, 0, 0, 0 });
+            nudWeight.Name = "nudWeight";
+            nudWeight.Size = new System.Drawing.Size(96, 23);
+            nudWeight.TabIndex = 21;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1302, 680);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.dgw2);
-            this.Controls.Add(this.dgwLeft);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.numericUpDown2);
-            this.Controls.Add(this.numericUpDown1);
-            this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
-            this.Text = "Метод PROMETHEE";
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgwLeft)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgw2)).EndInit();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudS)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudQ)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudWeight)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            BackColor = System.Drawing.Color.White;
+            ClientSize = new System.Drawing.Size(966, 510);
+            Controls.Add(groupBox1);
+            Controls.Add(button1);
+            Controls.Add(dgw2);
+            Controls.Add(dgwLeft);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(button2);
+            Controls.Add(numericUpDown2);
+            Controls.Add(numericUpDown1);
+            Controls.Add(menuStrip1);
+            MainMenuStrip = menuStrip1;
+            Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            Name = "Form1";
+            Text = "Метод PROMETHEE";
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgwLeft).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgw2).EndInit();
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)nudS).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nudQ).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nudWeight).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

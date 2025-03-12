@@ -18,7 +18,7 @@ namespace ЛР5
         public static int critCnt; //Кол-во критериев
         public static double[,] grid1;
         public static string[,] grid2;
-        public int[,] arr;
+        public double[,] arr;
         List<double[,]> table1;
         List<double[,]> table2;
         List<double[,]> table3;
@@ -189,13 +189,13 @@ namespace ЛР5
                     }
 
                     DataGridView dgv = dgwLeft;
-                    arr = new int[alternativeCnt, critCnt];
+                    arr = new double[alternativeCnt, critCnt];
 
                     for (int i = 0; i < alternativeCnt; i++)
                     {
                         for (int j = 0; j < critCnt; j++)
                         {
-                            arr[i, j] = Convert.ToInt32(worksheet.Cells[3 + i, 1 + j].Value);
+                            arr[i, j] = Convert.ToDouble(worksheet.Cells[3 + i, 1 + j].Value);
                             dgv[j, i].Value = arr[i, j];
                             grid1[i, j] = arr[i, j];
                         }
