@@ -262,7 +262,7 @@ namespace ЛР5
                         return 1;
 
                     if (d > q && d <= s)
-                        return (d - q) / (s - q);
+                        return 1 - ((d - q) / (s - q));
 
                     if (d > s)
                         return 0;
