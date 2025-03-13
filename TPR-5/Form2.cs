@@ -17,12 +17,14 @@ namespace ЛР5
         List<double[,]> StepOneMatr;
         List<double[,]> StepTwoMatr;
         List<double[,]> StepThreeMatr;
+        ListBox.ObjectCollection altern;
+        ListBox.ObjectCollection crit;
 
         int critCnt;
         int alternativeCnt;
         string Mess;
 
-        public Form2(int a, int b, double[,] Matr, string[,] Matr2) {
+        public Form2(int a, int b, double[,] Matr, string[,] Matr2, ListBox.ObjectCollection items, ListBox.ObjectCollection items2) {
             StepOneMatr = new List<double[,]>();
             StepTwoMatr = new List<double[,]>(); ;
             StepThreeMatr = new List<double[,]>(); ;
@@ -31,6 +33,8 @@ namespace ЛР5
             critCnt = b;
             matrixStepOne = Matr;
             dgv1 = Matr2;
+            altern = items;
+            crit = items2;
             InitializeComponent();
             StepOne();
             StepTwo();
@@ -77,7 +81,9 @@ namespace ЛР5
                 grid.BackgroundColor = System.Drawing.Color.White;
 
                 TabPage tabP = new TabPage();
-                tabP.Text = Convert.ToString(j + 1) + " критерий";
+
+                //tabP.Text = Convert.ToString(j + 1) + " критерий";
+                tabP.Text = crit[j].ToString();
                 tabControl1.Controls.Add(tabP);
                 tabP.Controls.Add(grid);
                 tabControl1.Refresh();
@@ -390,7 +396,7 @@ namespace ЛР5
 
             lbResult.Items.Clear();
             for (int i = 0; i < alternativeCnt; i++) {
-                lbResult.Items.Add("a" + Mas[1, i]);
+                lbResult.Items.Add(altern[(int)Mas[1, i] - 1].ToString());
             }
 
             lblResult.Text = Mess;

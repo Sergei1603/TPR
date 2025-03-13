@@ -362,7 +362,7 @@ namespace TPR_2
                             // для конечного события
                             if (i == 0)
                             {
-                                cbRootType.SelectedIndex = type == TypeElem.And ? 0 : 1;
+                          //      cbRootType.SelectedIndex = type == TypeElem.And ? 0 : 1;
                                // tbRootName.Text = name;
                             }
 
@@ -465,6 +465,7 @@ namespace TPR_2
             if(listBox1.SelectedIndex != -1)
             {
                 current_OS = listBox1.SelectedIndex;
+                cbRootType.SelectedIndex = events[current_OS][0].Type == TypeElem.And ? 0 : 1;
                 nudCost.Value = events[current_OS][0].value;
                 tbRootName.Text = events[listBox1.SelectedIndex][0].Name;
                 SyncTree();

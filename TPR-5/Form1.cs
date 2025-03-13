@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Common;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -38,7 +39,7 @@ namespace ЛР5
 
             cbType.Items.Add("Положительно направленный");
             cbType.Items.Add("Отрицательно направленный");
-            
+
             onCreateTable(null, null);
         }
 
@@ -132,6 +133,14 @@ namespace ЛР5
 
                 worksheet.Cells[current, 1].Value = value;
 
+                for (int i = 0; i < listBox1.Items.Count; i++)
+                {
+                    worksheet.Cells[1, i + 16].Value = listBox1.Items[i].ToString();
+                }
+                for (int i = 0; i < listBox2.Items.Count; i++)
+                {
+                    worksheet.Cells[2, i + 16].Value = listBox2.Items[i].ToString();
+                }
                 try
                 {
                     FileInfo fi = new FileInfo(saveFileDialog1.FileName);
@@ -168,12 +177,29 @@ namespace ЛР5
 
                     alternativeCnt = Convert.ToInt32(worksheet.Cells[1, 2].Value);
                     critCnt = Convert.ToInt32(worksheet.Cells[1, 5].Value);
+
+                    for (int i = 0; i < alternativeCnt; i++)
+                    {
+                        listBox1.Items.Add(Convert.ToString(worksheet.Cells[1, i + 16].Value));
+                    }
+                    for (int i = 0; i < critCnt; i++)
+                    {
+                        listBox2.Items.Add(Convert.ToString(worksheet.Cells[2, i + 16].Value));
+                    }
                     grid1 = new double[alternativeCnt, critCnt];
 
                     for (int i = 0; i < critCnt; i++)
                     {
                         var column = new DataGridViewColumn();
-                        column.HeaderText = Convert.ToString(i + 1) + " критерий";
+                        //column.HeaderText = Convert.ToString(i + 1) + " критерий";
+                        if (listBox2.Items.Count > i)
+                        {
+                            column.HeaderText = listBox2.Items[i].ToString();
+                        }
+                        else
+                        {
+                            column.HeaderText = Convert.ToString(i + 1) + " критерий";
+                        }
                         column.SortMode = DataGridViewColumnSortMode.NotSortable;
                         column.CellTemplate = new DataGridViewTextBoxCell();
                         column.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
@@ -184,7 +210,14 @@ namespace ЛР5
                     for (int i = 0; i < alternativeCnt; i++)
                     {
                         DataGridViewRow row = new DataGridViewRow();
-                        row.HeaderCell.Value = "a" + Convert.ToString(i + 1);
+                        if (listBox1.Items.Count > i)
+                        {
+                            row.HeaderCell.Value = listBox1.Items[i].ToString();
+                        }
+                        else
+                        {
+                            row.HeaderCell.Value = "a" + Convert.ToString(i + 1);
+                        }
                         dgwLeft.Rows.Add(row);
                     }
 
@@ -233,7 +266,14 @@ namespace ЛР5
             var list = new List<string>();
             for (int i = 0; i < critCnt; i++)
             {
-                list.Add(Convert.ToString(i + 1) + " критерий");
+                if (listBox2.Items.Count > i)
+                {
+                    list.Add(listBox2.Items[i].ToString());
+                }
+                else
+                {
+                    list.Add(Convert.ToString(i + 1) + " критерий");
+                }
             }
             cbCriteria.Items.AddRange(list.ToArray());
         }
@@ -274,7 +314,7 @@ namespace ЛР5
 
                     grid2[i, j] = dgw2[j, i].Value?.ToString();
                 }
-            
+
             if (sumCrit != 1)
             {
                 MessageBox.Show("Сумма весов критериев отлична от 1", "Ошибка");
@@ -287,7 +327,7 @@ namespace ЛР5
                     grid1[i, j] = Convert.ToDouble(dgwLeft[j, i].Value.ToString());
 
 
-            Form2 f2 = new Form2(alternativeCnt, critCnt, grid1, grid2);
+            Form2 f2 = new Form2(alternativeCnt, critCnt, grid1, grid2, listBox1.Items, listBox2.Items);
             f2.ShowDialog();
             table1 = f2.GetStepOne();
             table2 = f2.GetStepTwo();
@@ -299,10 +339,12 @@ namespace ЛР5
         private void onCreateTable(object sender, EventArgs e)
         {
             dgwLeft.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            
-            dgwLeft.Columns.Clear();
-            dgwLeft.Rows.Clear();
 
+            //dgwLeft.Columns.Clear();
+            // dgwLeft.Rows.Clear();
+
+            numericUpDown1.Value = listBox1.Items.Count == 0 ? 1 : listBox1.Items.Count;
+            numericUpDown2.Value = listBox2.Items.Count == 0 ? 1 : listBox2.Items.Count;
             if (numericUpDown1.Text != "")
                 alternativeCnt = Convert.ToInt32(numericUpDown1.Text);
             else
@@ -312,10 +354,17 @@ namespace ЛР5
             else
                 critCnt = 1;
 
-            for (int i = 0; i < critCnt; i++)
+            for (int i = dgwLeft.Columns.Count; i < critCnt; i++)
             {
                 var column = new DataGridViewColumn();
-                column.HeaderText = Convert.ToString(i + 1) + " критерий";
+                if (listBox2.Items.Count > i)
+                {
+                    column.HeaderText = listBox2.Items[i].ToString();
+                }
+                else
+                {
+                    column.HeaderText = Convert.ToString(i + 1) + " критерий";
+                }
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
                 column.CellTemplate = new DataGridViewTextBoxCell();
                 column.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
@@ -323,16 +372,24 @@ namespace ЛР5
                 dgwLeft.Columns.Add(column);
             }
 
-            for (int i = 0; i < alternativeCnt; i++)
+            for (int i = dgwLeft.Rows.Count; i < alternativeCnt; i++)
             {
                 DataGridViewRow row = new DataGridViewRow();
-                row.HeaderCell.Value = "a" + Convert.ToString(i + 1);
+
+                if (listBox1.Items.Count > i)
+                {
+                    row.HeaderCell.Value = listBox1.Items[i].ToString();
+                }
+                else
+                {
+                    row.HeaderCell.Value = "a" + Convert.ToString(i + 1);
+                }
 
                 dgwLeft.Rows.Add(row);
             }
 
-            for (int i = 0; i < alternativeCnt; i++)
-                for (int j = 0; j < critCnt; j++)
+            for (int i = dgwLeft.ColumnCount; i < alternativeCnt; i++)
+                for (int j = dgwLeft.Rows.Count; j < critCnt; j++)
                     dgwLeft.Rows[i].Cells[j].Value = "0";
 
             CreateCriterias();
@@ -373,14 +430,21 @@ namespace ЛР5
             for (int i = 0; i < critCnt; i++)
             {
                 DataGridViewRow row = new DataGridViewRow();
-                row.HeaderCell.Value = Convert.ToString(i + 1) + " критерий";
+                if (listBox2.Items.Count > i)
+                {
+                    row.HeaderCell.Value = listBox2.Items[i].ToString();
+                }
+                else
+                {
+                    row.HeaderCell.Value = Convert.ToString(i + 1) + " критерий";
+                }
                 dgw2.Rows.Add(row);
             }
         }
 
         private void cbCriteria_SelectedIndexChanged(object sender, EventArgs e)
         {
-           
+
         }
 
         private void cbFunction_SelectedIndexChanged(object sender, EventArgs e)
@@ -417,6 +481,39 @@ namespace ЛР5
 
             lblS.Visible = s;
             nudS.Visible = s;
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(textBox1.Text))
+            {
+                listBox1.Items.Add(textBox1.Text);
+            }
+            numericUpDown1.Value = listBox1.Items.Count;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(textBox1.Text))
+            {
+                listBox2.Items.Add(textBox1.Text);
+            }
+            numericUpDown2.Value = listBox2.Items.Count;
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            listBox1.Items.Clear();
+            listBox2.Items.Clear();
+            dgwLeft.Columns.Clear();
+            dgwLeft.Rows.Clear();
+            numericUpDown1.Value = 1;
+            numericUpDown2.Value = 1;
         }
     }
 }
