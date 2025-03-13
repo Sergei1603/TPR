@@ -16,8 +16,8 @@ namespace TPR_3
         int firstStrategiesCount;
         int secondStrategiesCount;
 
-        int firstStartStrategy;
-        int secondStartStrategy;
+        int firstStartStrategy = 1;
+        int secondStartStrategy = 1;
 
         double iterationsCount;
         double precision;
@@ -49,7 +49,7 @@ namespace TPR_3
             {
 
                 var column = new DataGridViewColumn();
-                column.HeaderText = "y" + Convert.ToString(i + 1);
+                column.HeaderText = "B" + Convert.ToString(i + 1);
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
                 column.CellTemplate = new DataGridViewTextBoxCell();
 
@@ -59,7 +59,7 @@ namespace TPR_3
             for (int i = 0; i < firstStrategiesCount; i++)
             {
                 DataGridViewRow row = new DataGridViewRow();
-                row.HeaderCell.Value = "x" + Convert.ToString(i + 1);
+                row.HeaderCell.Value = "A" + Convert.ToString(i + 1);
                 payGrid.Rows.Add(row);
             }
         }
@@ -152,7 +152,7 @@ namespace TPR_3
                     $"значение цены игры равно {payMatrix[sedloX, sedloY]}",
                     "Сообщение"
                 );
-                return;
+                // return;
             }
 
 
@@ -205,7 +205,7 @@ namespace TPR_3
             List<int> H = new List<int>();
 
             double razn = 100;
-            var maxIterations = 500;
+            var maxIterations = 100;
             precision = Convert.ToDouble(nudPrecision.Value);
 
             int iter = 0;
@@ -302,7 +302,10 @@ namespace TPR_3
                     : precision < razn;
             }
 
-            // смешанные стратегии первого
+            var iterCountByCondition = rbIteration.Checked
+                ? iterationsCount
+                : G.Count;
+             // смешанные стратегии первого
             double[] mixedstrategy1 = new double[firstStrategiesCount];
             for (int i = 0; i < firstStrategiesCount; i++)
             {
@@ -324,13 +327,13 @@ namespace TPR_3
                 {
                     p = 0;
                 }
-                if (mixedstrategy1[i] == iterationsCount)
+                if (mixedstrategy1[i] == iterCountByCondition)
                 {
                     p = 1;
                 }
-                if (mixedstrategy1[i] != 0 && mixedstrategy1[i] != iterationsCount)
+                if (mixedstrategy1[i] != 0 && mixedstrategy1[i] != iterCountByCondition)
                 {
-                    p = mixedstrategy1[i] / iterationsCount;
+                    p = mixedstrategy1[i] / iterCountByCondition;
                 }
 
 
@@ -358,13 +361,13 @@ namespace TPR_3
                 {
                     p = 0;
                 }
-                if (mixedstrategy2[i] == iterationsCount)
+                if (mixedstrategy2[i] == iterCountByCondition)
                 {
                     p = 1;
                 }
-                if (mixedstrategy2[i] != 0 && mixedstrategy2[i] != iterationsCount)
+                if (mixedstrategy2[i] != 0 && mixedstrategy2[i] != iterCountByCondition)
                 {
-                    p = mixedstrategy2[i] / iterationsCount;
+                    p = mixedstrategy2[i] / iterCountByCondition;
                 }
 
 
@@ -444,6 +447,26 @@ namespace TPR_3
                     nudPrecision.Value = Convert.ToDecimal(sr.ReadLine());
                 }
             }
+        }
+
+        private void nudStart1_ValueChanged(object sender, EventArgs e)
+        {
+            firstStartStrategy = (int)(sender as NumericUpDown).Value;
+        }
+
+        private void nudStart2_ValueChanged(object sender, EventArgs e)
+        {
+            secondStartStrategy = (int)(sender as NumericUpDown).Value;
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
