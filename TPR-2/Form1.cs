@@ -14,23 +14,38 @@ namespace TPR_2
     public partial class Form1 : Form
     {
         // "дерево" событий
-        List<InputResult> events = new List<InputResult>();
+        List<List<InputResult>> events = new List<List<InputResult>>();
+        int current_OS = 0;
+        List<double> riskOS = new List<double>();
 
         public Form1()
         {
             InitializeComponent();
+            events.Add(new List<InputResult>());
 
             // настраиваем корневое событие
             cbRootType.SelectedIndex = 0; // И
             InitRoot();
+            listBox1.Items.Add("Конечное событие");
         }
 
         private void InitRoot()
         {
             InputResult.counter = 0;
-            events.Add(new InputResult(TypeElem.And)
+            events[current_OS].Add(new InputResult(TypeElem.And)
             {
                 Name = tbRootName.Text,
+                Parent = null
+            });
+            SyncTree();
+        }
+
+        private void InitRoot(string name)
+        {
+            InputResult.counter = 0;
+            events[current_OS].Add(new InputResult(TypeElem.And)
+            {
+                Name = name,
                 Parent = null
             });
             SyncTree();
@@ -44,7 +59,7 @@ namespace TPR_2
                 RemoveRecursive(treeView.SelectedNode.Tag as InputResult);
                 SyncTree();
 
-                if (events.Count == 0)
+                if (events[current_OS].Count == 0)
                 {
                     InitRoot();
                 }
@@ -54,8 +69,8 @@ namespace TPR_2
         // удаление узла
         private void RemoveRecursive(InputResult forDelete)
         {
-            events.Remove(forDelete);
-            var childs = events.FindAll((ev) => ev.Parent?.Name == forDelete.Name).ToList();
+            events[current_OS].Remove(forDelete);
+            var childs = events[current_OS].FindAll((ev) => ev.Parent?.Name == forDelete.Name).ToList();
             for(int i = 0; i < childs.Count; i++)
             {
                 RemoveRecursive(childs[i]);
@@ -76,7 +91,7 @@ namespace TPR_2
 
             if (!string.IsNullOrEmpty(form.Result.Name))
             {
-                events.Add(form.Result);
+                events[current_OS].Add(form.Result);
                 SyncTree();
             }
             else
@@ -87,7 +102,7 @@ namespace TPR_2
         private void SyncTree()
         {
             treeView.Nodes.Clear();
-            events.ForEach(e =>
+            events[current_OS].ForEach(e =>
             {
                 string prefix = "";
                 string postfix = "";
@@ -129,9 +144,9 @@ namespace TPR_2
         // при изменении типа конечного события (И, ИЛИ)
         private void cbRootType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (events.Count > 0)
+            if (events.Count > 0 && events[current_OS].Count > 0)
             {
-                events[0].Type = cbRootType.SelectedIndex == 0 ? TypeElem.And : TypeElem.Or;
+                events[current_OS][0].Type = cbRootType.SelectedIndex == 0 ? TypeElem.And : TypeElem.Or;
                 SyncTree();
             }
         }
@@ -139,9 +154,9 @@ namespace TPR_2
         // при изменении названия конечного события
         private void tbRootName_TextChanged(object sender, EventArgs e)
         {
-            if (events.Count > 0)
+            if (events[current_OS].Count > 0)
             {
-                events[0].Name = tbRootName.Text;
+                events[current_OS][0].Name = tbRootName.Text;
                 SyncTree();
             }
         }
@@ -153,7 +168,7 @@ namespace TPR_2
                 return node.Probably;
             }
 
-            var childs = events.FindAll((ev) => ev.Parent?.Name == node.Name).ToList();
+            var childs = events[current_OS].FindAll((ev) => ev.Parent?.Name == node.Name).ToList();
 
             double? sum = node.Type == TypeElem.And ? 1 : 0;
 
@@ -213,6 +228,11 @@ namespace TPR_2
 
                 var riskValue = probably * Convert.ToDouble(nudCost.Value);
                 lblOcenka.Text = $"Оценка риска: {riskValue}";
+                if (riskValue != null)
+                {
+                    double tmp = (double)riskValue;
+                    riskOS.Add(tmp);
+                }
             }
         }
 
@@ -281,14 +301,14 @@ namespace TPR_2
 
         private bool Check()
         {
-            for (int i = 0; i < events.Count; i++)
+            for (int i = 0; i < events[current_OS].Count; i++)
             {
-                if (events[i].Type != TypeElem.Init)
+                if (events[current_OS][i].Type != TypeElem.Init)
                 {
-                    var firstChild = events.Find((ev) => ev.Parent?.Name == events[i].Name);
+                    var firstChild = events[current_OS].Find((ev) => ev.Parent?.Name == events[current_OS][i].Name);
                     if (firstChild == null)
                     {
-                        MessageBox.Show($"У промежуточного события \"{events[i].Name}\" нет инициирующих");
+                        MessageBox.Show($"У промежуточного события \"{events[current_OS][i].Name}\" нет инициирующих");
                         return false;
                     }
                 }
@@ -304,58 +324,67 @@ namespace TPR_2
                 using (var sr = new StreamReader(ofd.FileName))
                 {
                     events.Clear();
-                    nudCost.Value = Convert.ToDecimal(sr.ReadLine());
-                    var count = Convert.ToInt32(sr.ReadLine());
-
-                    TypeElem type;
-                    string typeText, name, idText, parentText, probablyText;
-                    var parentNames = new List<string>();
-                    for (int i = 0;i < count; i++)
+                    listBox1.Items.Clear();
+                    var countOS = Convert.ToDecimal(sr.ReadLine());
+                    for (int j = 0; j < countOS; j++)
                     {
-                        typeText = sr.ReadLine();
-                        name = sr.ReadLine();
-                        idText = sr.ReadLine();
-                        parentText = sr.ReadLine();
-                        probablyText = sr.ReadLine();
+                        listBox1.Items.Add(sr.ReadLine());
+                        events.Add(new List<InputResult>());
+                        //              events.Clear();
+                        var tmp = sr.ReadLine();
+                        var _value = Convert.ToDecimal(tmp);
+                        var count = Convert.ToInt32(sr.ReadLine());
 
-                        switch (typeText)
+                        TypeElem type;
+                        string typeText, name, idText, parentText, probablyText;
+                        var parentNames = new List<string>();
+                        for (int i = 0; i < count; i++)
                         {
-                            case "And":
-                                type = TypeElem.And;
-                                break;
-                            case "Or":
-                                type = TypeElem.Or;
-                                break;
-                            default:
-                                type = TypeElem.Init;
-                                break;
+                            typeText = sr.ReadLine();
+                            name = sr.ReadLine();
+                            idText = sr.ReadLine();
+                            parentText = sr.ReadLine();
+                            probablyText = sr.ReadLine();
+
+                            switch (typeText)
+                            {
+                                case "And":
+                                    type = TypeElem.And;
+                                    break;
+                                case "Or":
+                                    type = TypeElem.Or;
+                                    break;
+                                default:
+                                    type = TypeElem.Init;
+                                    break;
+                            }
+
+                            // для конечного события
+                            if (i == 0)
+                            {
+                                cbRootType.SelectedIndex = type == TypeElem.And ? 0 : 1;
+                               // tbRootName.Text = name;
+                            }
+
+                            parentNames.Add(parentText);
+
+                            var res = new InputResult(type) { Name = name, value = _value }; 
+                            res.Id = Convert.ToInt32(idText);
+
+                            if (type == TypeElem.Init)
+                            {
+                                res.Probably = Convert.ToDouble(probablyText);
+                            }
+
+                            events[j].Add(res);
                         }
 
-                        // для конечного события
-                        if (i == 0)
+                        for (int i = 0; i < events[j].Count; i++)
                         {
-                            cbRootType.SelectedIndex = type == TypeElem.And ? 0 : 1;
-                            tbRootName.Text = name;
+                            events[j][i].Parent = string.IsNullOrEmpty(parentNames[i])
+                                        ? null
+                                        : events[j].Find(x => x.Id == Convert.ToInt32(parentNames[i]));
                         }
-
-                        parentNames.Add(parentText);
-
-                        var res = new InputResult(type) { Name = name };
-                        res.Id = Convert.ToInt32(idText);
-
-                        if (type == TypeElem.Init)
-                        {
-                            res.Probably = Convert.ToDouble(probablyText);
-                        }
-
-                        events.Add(res);
-                    }
-
-                    for (int i = 0; i < events.Count; i++)
-                    {
-                        events[i].Parent = string.IsNullOrEmpty(parentNames[i])
-                                    ? null
-                                    : events.Find(x => x.Id == Convert.ToInt32(parentNames[i]));
                     }
                 }
 
@@ -369,31 +398,36 @@ namespace TPR_2
             {
                 using (var sw = new StreamWriter(sfd.FileName))
                 {
-                    sw.WriteLine(nudCost.Value);
-                    sw.WriteLine(events.Count);
-
-                    string typeText;
-                    events.ForEach(ev =>
+                    sw.WriteLine(listBox1.Items.Count);
+                    for (int i = 0; i < events.Count; i++)
                     {
-                        switch (ev.Type)
-                        {
-                            case TypeElem.And:
-                                typeText = "And";
-                                break;
-                            case TypeElem.Or:
-                                typeText = "Or";
-                                break;
-                            default:
-                                typeText = "Init";
-                                break;
-                        }
+                        sw.WriteLine(listBox1.Items[i]);
+                        sw.WriteLine(events[i][0].value);
+                        sw.WriteLine(events[i].Count);
 
-                        sw.WriteLine(typeText);
-                        sw.WriteLine(ev.Name);
-                        sw.WriteLine(ev.Id);
-                        sw.WriteLine(ev.Parent?.Id);
-                        sw.WriteLine(ev.Probably);
-                    });
+                        string typeText;
+                        events[i].ForEach(ev =>
+                        {
+                            switch (ev.Type)
+                            {
+                                case TypeElem.And:
+                                    typeText = "And";
+                                    break;
+                                case TypeElem.Or:
+                                    typeText = "Or";
+                                    break;
+                                default:
+                                    typeText = "Init";
+                                    break;
+                            }
+
+                            sw.WriteLine(typeText);
+                            sw.WriteLine(ev.Name);
+                            sw.WriteLine(ev.Id);
+                            sw.WriteLine(ev.Parent?.Id);
+                            sw.WriteLine(ev.Probably);
+                        });
+                    }
                 }
             }
         }
@@ -413,6 +447,70 @@ namespace TPR_2
 
             btnEdit.Enabled = !isRoot;
             btnDelete.Enabled = !isRoot;
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(textBox1.Text))
+            {
+                listBox1.Items.Add(textBox1.Text);
+                events.Add(new List<InputResult>());
+                current_OS = listBox1.Items.Count - 1;
+                InitRoot(textBox1.Text);
+            }
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(listBox1.SelectedIndex != -1)
+            {
+                current_OS = listBox1.SelectedIndex;
+                nudCost.Value = events[current_OS][0].value;
+                tbRootName.Text = events[listBox1.SelectedIndex][0].Name;
+                SyncTree();
+            }
+        }
+
+        private void button2_Click_2(object sender, EventArgs e)
+        {
+            if (listBox1.Items.Count > 1)
+            {
+                current_OS = 0;
+                events.RemoveAt(listBox1.SelectedIndex);
+                listBox1.Items.Remove(listBox1.SelectedItem);
+                listBox1.SelectedIndex = 0;
+                //       SyncTree();
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (riskOS.Count == listBox1.Items.Count)
+            {
+                label4.Text = "Оценка риска по всем ОС: " + riskOS.Sum();
+            }
+            else
+            {
+                MessageBox.Show("Для рассчета оценки риска по ИС, предворительно, необходимо рассчитать оценку риска для каждого ОС");
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(textBox1.Text) && listBox1.SelectedIndex != -1)
+            {
+                tbRootName.Text = textBox1.Text;
+                events[listBox1.SelectedIndex][0].Name = textBox1.Text;
+                SyncTree();
+                int index = listBox1.SelectedIndex;
+                listBox1.Items.RemoveAt(index);
+                listBox1.Items.Insert(index, textBox1.Text);
+            }
+        }
+
+        private void nudCost_ValueChanged(object sender, EventArgs e)
+        {
+            events[current_OS][0].value = nudCost.Value;
         }
     }
 }

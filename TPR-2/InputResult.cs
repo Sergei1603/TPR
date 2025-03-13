@@ -22,12 +22,20 @@ namespace TPR_2
             counter++;
         }
 
+        public InputResult(string name)
+        {
+            Id = counter;
+            counter++;
+            Name = name;
+        }
+
         public int? Id;
 
         public string Name { get; set; }
         public double? Probably { get; set; }
         public TypeElem Type { get; set; }
         public InputResult Parent { get; set; }
+        public decimal value { get; set; }
 
         public static int counter = 0;
     }
